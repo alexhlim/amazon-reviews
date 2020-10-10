@@ -1,0 +1,12 @@
+name: amazon-reviews-dev
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python
+  - pandas
+  - black
+  - pre_commit
+  - flake8
+  - isort
+  - ipykernel
