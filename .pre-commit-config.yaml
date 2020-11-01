@@ -17,17 +17,17 @@ repos:
         - id: isort
           types: [python]
           args: [--settings-file=.isort.cfg]
-    # - repo: https://github.com/softwaremill/scala-pre-commit-hooks
-    #   rev: v0.3.0
-    #   hooks:
-    #     - id: sbt-unused-imports
-    #       name: sbt-unused-imports
-    #       types: [scala]
-    #       args: [--scope=test:compile]
-    #     - id: sbt-scalafmt
-    #       name: sbt-scalafmt
-    #       types: [scala]
-    #     - id: sbt-wartremover
-    #       name: sbt-wartremover
-    #       types: [scala]
-    #       args: [--warts=Warts.unsafe, --scope=test:compile]
+    - repo: https://github.com/softwaremill/scala-pre-commit-hooks
+      rev: v0.3.0
+      hooks:
+        - id: sbt-unused-imports
+          name: sbt-unused-imports
+          types: [scala]
+          args: [--scope=test:compile]
+        - id: sbt-scalafmt
+          name: sbt-scalafmt
+          types: [scala]
+        - id: sbt-wartremover
+          name: sbt-wartremover
+          types: [scala]
+          args: [--warts=Warts.unsafe, --scope=test:compile]
