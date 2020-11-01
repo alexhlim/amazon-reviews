@@ -1,7 +1,7 @@
 import pandas as pd
 import requests
 
-url = "https://46y7hjo0yf.execute-api.us-east-2.amazonaws.com/dev/test"
+url = "https://xxxxxxxxxx.execute-api.us-east-2.amazonaws.com/dev/test"
 
 # low_memory -> ensure no mixed dtypes
 data = pd.read_csv("sample.csv", sep=",", low_memory=False)
