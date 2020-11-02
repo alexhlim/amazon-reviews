@@ -14,6 +14,7 @@ libraryDependencies += "org.apache.spark" %% "spark-sql" % "3.0.0"
 libraryDependencies += "org.apache.spark" %% "spark-streaming" % "3.0.1"
 libraryDependencies += "org.apache.spark" % "spark-streaming-kinesis-asl_2.12" % "3.0.1"
 libraryDependencies += "org.json4s" %% "json4s-native" % "3.7.0-M7"
+libraryDependencies += "org.scalatest" %% "scalatest" % "3.3.0-SNAP2" % Test
 
 wartremoverErrors ++= Warts.unsafe
 
