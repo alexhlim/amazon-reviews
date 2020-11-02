@@ -27,6 +27,7 @@ repos:
         - id: sbt-scalafmt
           name: sbt-scalafmt
           types: [scala]
+          args: [--config=.scalafmt.conf]
         - id: sbt-wartremover
           name: sbt-wartremover
           types: [scala]
