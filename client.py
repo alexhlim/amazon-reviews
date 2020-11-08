@@ -1,10 +1,13 @@
+import sys
+
 import pandas as pd
 import requests
 
-url = "https://xxxxxxxxxx.execute-api.us-east-2.amazonaws.com/dev/test"
+url = sys.argv[1]
+csv = sys.argv[2]
 
 # low_memory -> ensure no mixed dtypes
-data = pd.read_csv("sample.csv", sep=",", low_memory=False)
+data = pd.read_csv(csv, sep=",", low_memory=False)
 
 # Write all the rows from sample data to the api as a post request
 for i in data.index:
