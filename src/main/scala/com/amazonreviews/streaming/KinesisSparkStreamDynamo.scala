@@ -47,8 +47,6 @@ object KinesisSparkStreamDynamo {
     }
   }
 
-  // set in config?
-  // sbt run AmazonReviews AmazonReviews-APIData https://kinesis.us-east-2.amazonaws.com AmazonReviews-Product
   def main(args: Array[String]) {
     val Array(appName, streamName, endpointUrl, tableName) = args
 
