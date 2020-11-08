@@ -1,0 +1,8 @@
+APP_NAME=AmazonReviews
+STREAM_NAME=AmazonReviews-APIData
+KINESIS_ENDPOINT=https://kinesis.us-east-2.amazonaws.com
+DYNAMODB_TABLE=AmazonReviews-Product
+AMAZON_REVIEWS_JAR_PATH=target/scala-2.12
+AMAZON_REVIEWS_JAR=amazon-reviews-streaming-assembly-0.1.jar
+AMAZON_REVIEWS_S3=s3://amazonreviews-analytics
+CLUSTER_ID=""

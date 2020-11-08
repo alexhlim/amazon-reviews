@@ -9,3 +9,6 @@ target
 .bloop
 .bsp
 .metals
+
+# Config
+.amazon-reviews-config
