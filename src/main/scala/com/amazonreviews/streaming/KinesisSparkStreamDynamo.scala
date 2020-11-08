@@ -52,6 +52,8 @@ object KinesisSparkStreamDynamo {
 
     val conf = new SparkConf().setMaster("local[2]").setAppName(appName)
     val ssc = new StreamingContext(conf, Seconds(1))
+    val sc = ssc.sparkContext
+    sc.setLogLevel("ERROR")
     println(s"Launching: ${appName}")
 
     val credentials = getCredentials()
