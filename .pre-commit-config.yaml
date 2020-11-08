@@ -20,10 +20,10 @@ repos:
     - repo: https://github.com/softwaremill/scala-pre-commit-hooks
       rev: v0.3.0
       hooks:
-        - id: sbt-unused-imports
-          name: sbt-unused-imports
-          types: [scala]
-          args: [--scope=test:compile]
+        # - id: sbt-unused-imports
+        #   name: sbt-unused-imports
+        #   types: [scala]
+        #   args: [--scope=test:compile]
         - id: sbt-scalafmt
           name: sbt-scalafmt
           types: [scala]

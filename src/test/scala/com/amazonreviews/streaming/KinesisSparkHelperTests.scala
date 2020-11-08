@@ -1,20 +1,17 @@
 package com.amazonreviews.streaming
 
-import com.amazonreviews.streaming.KinesisSparkHelper.{processAPIData}
-import org.scalatest.funsuite.{AnyFunSuite}
+import com.amazonreviews.streaming.KinesisSparkHelper.processAPIData
+import com.amazonreviews.streaming.ReviewFixture.reviewJson
+import org.scalatest.FunSuite
 
-class KinesisSparkHelperTests extends AnyFunSuite {
+class KinesisSparkHelperTests extends FunSuite {
   test("processAPIData is invoked on a json String") {
-    // Four double quotes to get String representation: "123", "xyz"
-    val id = s""""123""""
-    val reviewId = s""""xyz""""
-    val jsonString =
-      s"""{"id":${id},"reviews.id":${reviewId},"other":"blah"}"""
-    val actual = processAPIData(jsonString)
+    val f = reviewJson
+    val actual = processAPIData(f.jsonString)
     val expected = ProductReviewData(
-      id,
-      reviewId,
-      """{"other":"blah"}"""
+      f.id,
+      f.reviewId,
+      f.expectedJson
     )
     assert(actual == expected)
   }
