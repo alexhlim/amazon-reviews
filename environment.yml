@@ -10,3 +10,4 @@ dependencies:
   - flake8
   - isort
   - ipykernel
+  - kaggle
