@@ -8,13 +8,13 @@ import com.amazonreviews.streaming.KinesisSparkHelper.{
 }
 import com.audienceproject.spark.dynamodb.implicits._
 import software.amazon.awssdk.http.apache.ApacheHttpClient
-
 import software.amazon.awssdk.services.kinesis.KinesisClient
 import org.apache.spark.SparkConf
+import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.functions._
 import org.apache.spark.storage.StorageLevel
 import org.apache.spark.streaming.{Milliseconds, Seconds, StreamingContext}
 import org.apache.spark.streaming.dstream.DStream
-import org.apache.spark.sql.SparkSession
 import org.apache.spark.streaming.kinesis.{
   KinesisInitialPositions,
   KinesisInputDStream
@@ -37,13 +37,19 @@ object KinesisSparkStreamDynamo {
       region: String,
       tableName: String
   ): Unit = {
-    inputStream.window(Seconds(10)).foreachRDD { rdd =>
+    // Process only current batch
+    inputStream.foreachRDD { rdd =>
       val spark = SparkSession.builder().getOrCreate()
       // Spark needs to be initalized before importing this, needed for .toDF()
       import spark.implicits._
       val reviewDf = rdd.toDF()
-      reviewDf.show(1)
-      reviewDf.write.option("region", region.toString()).dynamodb(tableName)
+      if (!reviewDf.isEmpty) {
+        val dynamoDf =
+          reviewDf.groupBy("id").pivot("reviewId").agg(first("reviewJson"))
+        dynamoDf.show(1)
+        dynamoDf.write.option("region", region.toString()).dynamodb(tableName)
+      }
+
     }
   }
 
