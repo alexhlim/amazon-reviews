@@ -19,11 +19,7 @@ class KinesisSparkStreamDynamoTests
     val input = List(List(f.jsonString.getBytes()))
     val expected = List(
       List(
-        ProductReviewDynamo(
-          f.id,
-          f.reviewId,
-          f.expectedJson
-        )
+        f.productReviewDynamo
       )
     )
     testOperation[Array[Byte], ProductReviewDynamo](
@@ -39,19 +35,7 @@ class KinesisSparkStreamDynamoTests
     val input = List(List(f.jsonString.getBytes()))
     val expected = List(
       List(
-        ProductReviewRedshift(
-          id = f.id,
-          reviewId = f.reviewId,
-          name = f.name,
-          brand = f.brand,
-          reviewDate = f.reviewDate,
-          reviewDoRecommend = f.reviewDoRecommend,
-          reviewNumHelpful = f.reviewNumHelpful.toInt,
-          reviewRating = f.reviewRating.toInt,
-          reviewText = f.reviewText,
-          reviewTitle = f.reviewTitle,
-          reviewUsername = f.reviewUsername
-        )
+        f.productReviewRedshift
       )
     )
     testOperation[Array[Byte], ProductReviewRedshift](

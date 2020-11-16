@@ -27,6 +27,24 @@ object ReviewFixture {
       s"""{"id":${id},"name":${name},"brand":${brand},"reviews.date":${reviewDate},"reviews.doRecommend":${reviewDoRecommend},"reviews.id":${reviewId},"reviews.numHelpful":${reviewNumHelpful},"reviews.rating":${reviewRating},"reviews.text":${reviewText},"reviews.title":${reviewTitle},"reviews.username":${reviewUsername}}"""
     val expectedJson =
       s"""{"name":${name},"brand":${brand},"reviews.date":${reviewDate},"reviews.doRecommend":${reviewDoRecommend},"reviews.numHelpful":${reviewNumHelpful},"reviews.rating":${reviewRating},"reviews.text":${reviewText},"reviews.title":${reviewTitle},"reviews.username":${reviewUsername}}"""
+    val productReviewDynamo = ProductReviewDynamo(
+      id,
+      reviewId,
+      expectedJson
+    )
+    val productReviewRedshift = ProductReviewRedshift(
+      id = id,
+      reviewId = reviewId,
+      name = name,
+      brand = brand,
+      reviewDate = reviewDate,
+      reviewDoRecommend = reviewDoRecommend,
+      reviewNumHelpful = reviewNumHelpful.toInt,
+      reviewRating = reviewRating.toInt,
+      reviewText = reviewText,
+      reviewTitle = reviewTitle,
+      reviewUsername = reviewUsername
+    )
   }
 
 }
