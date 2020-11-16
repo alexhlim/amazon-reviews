@@ -16,14 +16,14 @@ class KinesisSparkStreamDynamoTests
     val input = List(List(f.jsonString.getBytes()))
     val expected = List(
       List(
-        ProductReviewData(
+        ProductReviewDynamo(
           f.id,
           f.reviewId,
           f.expectedJson
         )
       )
     )
-    testOperation[Array[Byte], ProductReviewData](
+    testOperation[Array[Byte], ProductReviewDynamo](
       input,
       getInputStream _,
       expected,

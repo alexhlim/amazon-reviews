@@ -24,7 +24,7 @@ object KinesisSparkStreamDynamo {
 
   def getInputStream(
       unionStreams: DStream[Array[Byte]]
-  ): DStream[ProductReviewData] = {
+  ): DStream[ProductReviewDynamo] = {
     val inputStreamData = unionStreams.map { byteArray =>
       val jsonString = new String(byteArray)
       processAPIData(jsonString)
@@ -33,7 +33,7 @@ object KinesisSparkStreamDynamo {
   }
 
   def writeToDynamodb(
-      inputStream: DStream[ProductReviewData],
+      inputStream: DStream[ProductReviewDynamo],
       region: String,
       tableName: String
   ): Unit = {
@@ -52,6 +52,8 @@ object KinesisSparkStreamDynamo {
 
     }
   }
+
+  def writeToRedshift(inputStream: DStream[ProductReviewDynamo]): Unit = {}
 
   def main(args: Array[String]) {
     val Array(appName, streamName, endpointUrl, tableName) = args

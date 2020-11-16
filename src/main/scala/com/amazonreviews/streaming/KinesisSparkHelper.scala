@@ -39,7 +39,7 @@ object KinesisSparkHelper {
     Region.US_EAST_2
   }
 
-  def processAPIData(jsonString: String): ProductReviewData = {
+  def processAPIData(jsonString: String): ProductReviewDynamo = {
     // Move to helpers
     val json = parse(jsonString)
     val id = compact(render(json \ "id"))
@@ -50,8 +50,40 @@ object KinesisSparkHelper {
       case JField("reviews.id", _) => true
       case _                       => false
     }))
-    ProductReviewData(id, reviewId, reviewJson)
+    ProductReviewDynamo(id, reviewId, reviewJson)
+  }
+
+  def processReviewJson(reviewJson: String): ProductReviewRedshift = {
+    val json = parse(reviewJson)
+    implicit val formats = DefaultFormats
+    val schema = ProductReviewRedshift(
+      id = compact(render(json \ "id")),
+      reviewId = compact(render(json \ "reviews.id")),
+      name = compact(render(json \ "name")),
+      brand = compact(render(json \ "brand")),
+      reviewDate = compact(render(json \ "reviews.date")),
+      reviewDoRecommend = compact(render(json \ "reviews.doRecommend")),
+      reviewNumHelpful = (json \ "reviews.numHelpful").extract[Int],
+      reviewRating = (json \ "reviews.rating").extract[Int],
+      reviewText = compact(render(json \ "reviews.text")),
+      reviewTitle = compact(render(json \ "reviews.title")),
+      reviewUsername = compact(render(json \ "reviews.username"))
+    )
+    schema
   }
 
 }
-case class ProductReviewData(id: String, reviewId: String, reviewJson: String)
+case class ProductReviewDynamo(id: String, reviewId: String, reviewJson: String)
+case class ProductReviewRedshift(
+    id: String,
+    reviewId: String,
+    name: String,
+    brand: String,
+    reviewDate: String,
+    reviewDoRecommend: String,
+    reviewNumHelpful: Int,
+    reviewRating: Int,
+    reviewText: String,
+    reviewTitle: String,
+    reviewUsername: String
+)
