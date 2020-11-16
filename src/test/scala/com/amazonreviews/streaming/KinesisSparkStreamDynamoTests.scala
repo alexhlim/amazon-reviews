@@ -11,7 +11,7 @@ class KinesisSparkStreamDynamoTests
     extends FunSuite
     with StreamingSuiteBase
     with DataFrameSuiteBase {
-  test("getInputStream creates DStream of ProductReviewData") {
+  test("getInputStream creates DStream of ProductReviewDynamo") {
     val f = reviewJson
     val input = List(List(f.jsonString.getBytes()))
     val expected = List(
@@ -31,7 +31,7 @@ class KinesisSparkStreamDynamoTests
     )
   }
 
-  test("pivoting ProductReviewData to dynamodb wide column format") {
+  test("pivoting ProductReviewDynamo to dynamodb wide column format") {
     val f = reviewJson
     val sqlCtx = sqlContext
     import sqlCtx.implicits._

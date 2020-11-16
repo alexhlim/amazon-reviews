@@ -4,7 +4,7 @@ import com.amazonreviews.streaming.KinesisSparkHelper.{
   getNumShards,
   getCredentials,
   getRegion,
-  processAPIData
+  processAPIDataDynamo
 }
 import com.audienceproject.spark.dynamodb.implicits._
 import software.amazon.awssdk.http.apache.ApacheHttpClient
@@ -27,7 +27,7 @@ object KinesisSparkStreamDynamo {
   ): DStream[ProductReviewDynamo] = {
     val inputStreamData = unionStreams.map { byteArray =>
       val jsonString = new String(byteArray)
-      processAPIData(jsonString)
+      processAPIDataDynamo(jsonString)
     }
     inputStreamData
   }

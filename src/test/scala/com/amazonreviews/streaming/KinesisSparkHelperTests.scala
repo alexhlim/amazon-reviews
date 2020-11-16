@@ -1,17 +1,17 @@
 package com.amazonreviews.streaming
 
 import com.amazonreviews.streaming.KinesisSparkHelper.{
-  processAPIData,
-  processReviewJson
+  processAPIDataDynamo,
+  processAPIDataRedshift
 }
 import com.amazonreviews.streaming.ReviewFixture.reviewJson
 import org.scalatest.FunSuite
 import breeze.numerics.exp
 
 class KinesisSparkHelperTests extends FunSuite {
-  test("processAPIData is invoked on a json String") {
+  test("processAPIDataDynamo is invoked on a json String") {
     val f = reviewJson
-    val actual = processAPIData(f.jsonString)
+    val actual = processAPIDataDynamo(f.jsonString)
     val expected = ProductReviewDynamo(
       f.id,
       f.reviewId,
@@ -20,9 +20,9 @@ class KinesisSparkHelperTests extends FunSuite {
     assert(actual == expected)
   }
 
-  test("processReviewJson is invoked on the review json String") {
+  test("processAPIDataRedshift is invoked on the review json String") {
     val f = reviewJson
-    val actual = processReviewJson(f.jsonString)
+    val actual = processAPIDataRedshift(f.jsonString)
     val expected = ProductReviewRedshift(
       id = f.id,
       reviewId = f.reviewId,

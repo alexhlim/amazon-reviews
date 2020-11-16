@@ -39,7 +39,7 @@ object KinesisSparkHelper {
     Region.US_EAST_2
   }
 
-  def processAPIData(jsonString: String): ProductReviewDynamo = {
+  def processAPIDataDynamo(jsonString: String): ProductReviewDynamo = {
     // Move to helpers
     val json = parse(jsonString)
     val id = compact(render(json \ "id"))
@@ -53,7 +53,7 @@ object KinesisSparkHelper {
     ProductReviewDynamo(id, reviewId, reviewJson)
   }
 
-  def processReviewJson(reviewJson: String): ProductReviewRedshift = {
+  def processAPIDataRedshift(reviewJson: String): ProductReviewRedshift = {
     val json = parse(reviewJson)
     implicit val formats = DefaultFormats
     val schema = ProductReviewRedshift(
