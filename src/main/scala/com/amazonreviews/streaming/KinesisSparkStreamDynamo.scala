@@ -4,7 +4,8 @@ import com.amazonreviews.streaming.KinesisSparkHelper.{
   getNumShards,
   getCredentials,
   getRegion,
-  processAPIDataDynamo
+  processAPIDataDynamo,
+  processAPIDataRedshift
 }
 import com.audienceproject.spark.dynamodb.implicits._
 import software.amazon.awssdk.http.apache.ApacheHttpClient
@@ -22,14 +23,24 @@ import org.apache.spark.streaming.kinesis.{
 
 object KinesisSparkStreamDynamo {
 
-  def getInputStream(
+  def convertStreamDynamo(
       unionStreams: DStream[Array[Byte]]
   ): DStream[ProductReviewDynamo] = {
-    val inputStreamData = unionStreams.map { byteArray =>
+    val dynamoStream = unionStreams.map { byteArray =>
       val jsonString = new String(byteArray)
       processAPIDataDynamo(jsonString)
     }
-    inputStreamData
+    dynamoStream
+  }
+
+  def convertStreamRedshift(
+      unionStreams: DStream[Array[Byte]]
+  ): DStream[ProductReviewRedshift] = {
+    val redshiftStream = unionStreams.map { byteArray =>
+      val jsonString = new String(byteArray)
+      processAPIDataRedshift(jsonString)
+    }
+    redshiftStream
   }
 
   def writeToDynamodb(
@@ -91,9 +102,10 @@ object KinesisSparkStreamDynamo {
     }
     // Unifying input DStreams
     val unionStreams = ssc.union(kinesisStreams)
-    val inputStream = getInputStream(unionStreams)
+    val dynamoStream = convertStreamDynamo(unionStreams)
+    val redshiftStream = convertStreamRedshift(unionStreams)
 
-    writeToDynamodb(inputStream, region.toString(), tableName)
+    writeToDynamodb(dynamoStream, region.toString(), tableName)
 
     ssc.start()
     ssc.awaitTermination()

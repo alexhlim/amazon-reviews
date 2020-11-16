@@ -1,6 +1,9 @@
 package com.amazonreviews.streaming
 
-import com.amazonreviews.streaming.KinesisSparkStreamDynamo.getInputStream
+import com.amazonreviews.streaming.KinesisSparkStreamDynamo.{
+  convertStreamDynamo,
+  convertStreamRedshift
+}
 import com.amazonreviews.streaming.ReviewFixture.reviewJson
 import com.holdenkarau.spark.testing.{StreamingSuiteBase, DataFrameSuiteBase}
 import org.scalatest.FunSuite
@@ -11,7 +14,7 @@ class KinesisSparkStreamDynamoTests
     extends FunSuite
     with StreamingSuiteBase
     with DataFrameSuiteBase {
-  test("getInputStream creates DStream of ProductReviewDynamo") {
+  test("convertStreamDynamo creates DStream of ProductReviewDynamo") {
     val f = reviewJson
     val input = List(List(f.jsonString.getBytes()))
     val expected = List(
@@ -25,7 +28,35 @@ class KinesisSparkStreamDynamoTests
     )
     testOperation[Array[Byte], ProductReviewDynamo](
       input,
-      getInputStream _,
+      convertStreamDynamo _,
+      expected,
+      ordered = false
+    )
+  }
+
+  test("convertStreamRedshift creates DStream of ProductReviewRedshift") {
+    val f = reviewJson
+    val input = List(List(f.jsonString.getBytes()))
+    val expected = List(
+      List(
+        ProductReviewRedshift(
+          id = f.id,
+          reviewId = f.reviewId,
+          name = f.name,
+          brand = f.brand,
+          reviewDate = f.reviewDate,
+          reviewDoRecommend = f.reviewDoRecommend,
+          reviewNumHelpful = f.reviewNumHelpful.toInt,
+          reviewRating = f.reviewRating.toInt,
+          reviewText = f.reviewText,
+          reviewTitle = f.reviewTitle,
+          reviewUsername = f.reviewUsername
+        )
+      )
+    )
+    testOperation[Array[Byte], ProductReviewRedshift](
+      input,
+      convertStreamRedshift _,
       expected,
       ordered = false
     )
