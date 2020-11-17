@@ -44,12 +44,12 @@ object KinesisSparkStreamDynamo {
   }
 
   def writeToDynamodb(
-      inputStream: DStream[ProductReviewDynamo],
+      dynamoStream: DStream[ProductReviewDynamo],
       region: String,
-      tableName: String
+      dynamoTable: String
   ): Unit = {
     // Process only current batch
-    inputStream.foreachRDD { rdd =>
+    dynamoStream.foreachRDD { rdd =>
       val spark = SparkSession.builder().getOrCreate()
       // Spark needs to be initalized before importing this, needed for .toDF()
       import spark.implicits._
@@ -58,16 +58,49 @@ object KinesisSparkStreamDynamo {
         val dynamoDf =
           reviewDf.groupBy("id").pivot("reviewId").agg(first("reviewJson"))
         dynamoDf.show(1)
-        dynamoDf.write.option("region", region.toString()).dynamodb(tableName)
+        dynamoDf.write.option("region", region.toString()).dynamodb(dynamoTable)
       }
-
     }
   }
 
-  def writeToRedshift(inputStream: DStream[ProductReviewDynamo]): Unit = {}
+  def writeToRedshift(
+      redshiftStream: DStream[ProductReviewRedshift],
+      redshiftUsername: String,
+      redshiftPassword: String,
+      redshiftTable: String,
+      redshiftS3Path: String
+  ): Unit = {
+    redshiftStream.foreachRDD { rdd =>
+      val spark = SparkSession.builder().getOrCreate()
+      // Spark needs to be initalized before importing this, needed for .toDF()
+      import spark.implicits._
+      val reviewDf = rdd.toDF()
+      if (!reviewDf.isEmpty) {
+        reviewDf.write
+          .format("io.github.spark_redshift_community.spark.redshift")
+          .option(
+            "url",
+            s"jdbc:redshift://redshifthost:5439/database?user=${redshiftUsername}&password=${redshiftPassword}"
+          )
+          .option("dbtable", redshiftTable)
+          .option("tempdir", redshiftS3Path)
+          .mode("error")
+          .save()
+      }
+    }
+  }
 
   def main(args: Array[String]) {
-    val Array(appName, streamName, endpointUrl, tableName) = args
+    val Array(
+      appName,
+      kinesisStream,
+      kinesisEndpoint,
+      dynamoTable,
+      redshiftUsername,
+      redshiftPassword,
+      redshiftTable,
+      redshiftS3Path
+    ) = args
 
     val conf = new SparkConf().setMaster("local[2]").setAppName(appName)
     val ssc = new StreamingContext(conf, Seconds(1))
@@ -85,15 +118,15 @@ object KinesisSparkStreamDynamo {
       .httpClient(ApacheHttpClient.create())
       .region(region)
       .build()
-    val numShards = getNumShards(kinesisClient, streamName)
+    val numShards = getNumShards(kinesisClient, kinesisStream)
     println(s"Number of shards: $numShards")
     // Each Kinesis shard becomes its own input DStream
     val kinesisStreams = (0 until numShards).map { i =>
       KinesisInputDStream.builder
         .streamingContext(ssc)
-        .endpointUrl(endpointUrl)
+        .endpointUrl(kinesisEndpoint)
         .regionName(region.toString())
-        .streamName(streamName)
+        .streamName(kinesisStream)
         .initialPosition(new KinesisInitialPositions.Latest())
         .checkpointAppName(appName)
         .checkpointInterval(Milliseconds(100))
@@ -105,7 +138,14 @@ object KinesisSparkStreamDynamo {
     val dynamoStream = convertStreamDynamo(unionStreams)
     val redshiftStream = convertStreamRedshift(unionStreams)
 
-    writeToDynamodb(dynamoStream, region.toString(), tableName)
+    writeToDynamodb(dynamoStream, region.toString(), dynamoTable)
+    writeToRedshift(
+      redshiftStream,
+      redshiftUsername,
+      redshiftPassword,
+      redshiftTable,
+      redshiftS3Path
+    )
 
     ssc.start()
     ssc.awaitTermination()

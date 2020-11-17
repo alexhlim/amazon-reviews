@@ -4,11 +4,16 @@ SAMPLE_DATA_SIZE=5
 REVIEW_CSV=data/sample.csv
 API_GATEWAY_ENDPOINT=https://xxxxxxxxxx.execute-api.us-east-2.amazonaws.com/dev/test
 
-AMAZON_REVIEWS_JAR_PATH=target/scala-2.12
+AMAZON_REVIEWS_JAR_PATH=target/scala-2.12/amazon-reviews-streaming-assembly-0.1.jar
 AMAZON_REVIEWS_JAR=amazon-reviews-streaming-assembly-0.1.jar
-AMAZON_REVIEWS_S3=s3://amazonreviews-analytics
-CLUSTER_ID=j-XXXXXXXXXXXXF
+EMR_S3_PATH=s3://amazonreviews-analytics
+EMR_CLUSTER_ID=j-XXXXXXXXXXXXF
 APP_NAME=AmazonReviews
-STREAM_NAME=AmazonReviews-APIData
+KINESIS_STREAM=AmazonReviews-APIData
 KINESIS_ENDPOINT=https://kinesis.us-east-2.amazonaws.com
 DYNAMODB_TABLE=AmazonReviews-Product
+
+REDSHIFT_USERNAME=user
+REDSHIFT_PASSWORD=pass
+REDSHIFT_TABLE=AmazonReviews-Analytics
+REDSHIFT_S3_PATH=s3://amazonreviews-analytics

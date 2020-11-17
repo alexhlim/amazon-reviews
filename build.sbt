@@ -16,6 +16,7 @@ libraryDependencies += "org.apache.spark" % "spark-streaming-kinesis-asl_2.12" %
 libraryDependencies += "org.json4s" %% "json4s-jackson" % "3.6.6"
 // Contains ScalaTest
 libraryDependencies += "com.holdenkarau" %% "spark-testing-base" % "3.0.0_1.0.0" % Test
+libraryDependencies += "io.github.spark-redshift-community" %% "spark-redshift" % "4.2.0"
 
 wartremoverErrors ++= Warts.unsafe
 
