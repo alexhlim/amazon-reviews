@@ -12,30 +12,14 @@ class KinesisSparkHelperTests extends FunSuite {
   test("processAPIDataDynamo is invoked on a json String") {
     val f = reviewJson
     val actual = processAPIDataDynamo(f.jsonString)
-    val expected = ProductReviewDynamo(
-      f.id,
-      f.reviewId,
-      f.expectedJson
-    )
+    val expected = f.productReviewDynamo
     assert(actual == expected)
   }
 
-  test("processAPIDataRedshift is invoked on the review json String") {
+  test("processAPIDataRedshift is invoked on a json String") {
     val f = reviewJson
     val actual = processAPIDataRedshift(f.jsonString)
-    val expected = ProductReviewRedshift(
-      id = f.id,
-      reviewId = f.reviewId,
-      name = f.name,
-      brand = f.brand,
-      reviewDate = f.reviewDate,
-      reviewDoRecommend = f.reviewDoRecommend,
-      reviewNumHelpful = f.reviewNumHelpful.toInt,
-      reviewRating = f.reviewRating.toInt,
-      reviewText = f.reviewText,
-      reviewTitle = f.reviewTitle,
-      reviewUsername = f.reviewUsername
-    )
+    val expected = f.productReviewRedshift
     assert(actual == expected)
   }
 }
