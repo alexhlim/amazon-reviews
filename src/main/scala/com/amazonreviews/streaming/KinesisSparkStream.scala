@@ -21,7 +21,7 @@ import org.apache.spark.streaming.kinesis.{
   KinesisInputDStream
 }
 
-object KinesisSparkStreamDynamo {
+object KinesisSparkStream {
 
   def convertStreamDynamo(
       unionStreams: DStream[Array[Byte]]

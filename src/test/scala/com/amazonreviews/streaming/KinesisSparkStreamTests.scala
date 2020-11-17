@@ -1,6 +1,6 @@
 package com.amazonreviews.streaming
 
-import com.amazonreviews.streaming.KinesisSparkStreamDynamo.{
+import com.amazonreviews.streaming.KinesisSparkStream.{
   convertStreamDynamo,
   convertStreamRedshift
 }
