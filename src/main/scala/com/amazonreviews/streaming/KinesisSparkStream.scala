@@ -65,10 +65,11 @@ object KinesisSparkStream {
 
   def writeToRedshift(
       redshiftStream: DStream[ProductReviewRedshift],
+      redshiftJdbc: String,
+      redshiftJdbcClass: String,
       redshiftUsername: String,
       redshiftPassword: String,
-      redshiftTable: String,
-      redshiftS3Path: String
+      redshiftTable: String
   ): Unit = {
     redshiftStream.foreachRDD { rdd =>
       val spark = SparkSession.builder().getOrCreate()
@@ -76,15 +77,15 @@ object KinesisSparkStream {
       import spark.implicits._
       val reviewDf = rdd.toDF()
       if (!reviewDf.isEmpty) {
+        reviewDf.show(1)
         reviewDf.write
-          .format("io.github.spark_redshift_community.spark.redshift")
-          .option(
-            "url",
-            s"jdbc:redshift://redshifthost:5439/database?user=${redshiftUsername}&password=${redshiftPassword}"
-          )
+          .format("jdbc")
+          .option("url", redshiftJdbc)
+          .option("driver", redshiftJdbcClass)
           .option("dbtable", redshiftTable)
-          .option("tempdir", redshiftS3Path)
-          .mode("error")
+          .option("user", redshiftUsername)
+          .option("password", redshiftPassword)
+          .mode("append")
           .save()
       }
     }
@@ -96,10 +97,11 @@ object KinesisSparkStream {
       kinesisStream,
       kinesisEndpoint,
       dynamoTable,
+      redshiftJdbc,
+      redshiftJdbcClass,
       redshiftUsername,
       redshiftPassword,
-      redshiftTable,
-      redshiftS3Path
+      redshiftTable
     ) = args
 
     val conf = new SparkConf().setMaster("local[2]").setAppName(appName)
@@ -110,6 +112,7 @@ object KinesisSparkStream {
 
     val credentials = getCredentials()
     val region = getRegion()
+
     println(s"AWS Access Key: ${credentials.accessKeyId()}")
     println(s"Region currently being used: $region")
 
@@ -141,10 +144,11 @@ object KinesisSparkStream {
     writeToDynamodb(dynamoStream, region.toString(), dynamoTable)
     writeToRedshift(
       redshiftStream,
+      redshiftJdbc,
+      redshiftJdbcClass,
       redshiftUsername,
       redshiftPassword,
-      redshiftTable,
-      redshiftS3Path
+      redshiftTable
     )
 
     ssc.start()

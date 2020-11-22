@@ -1,5 +1,6 @@
 REPO_LOCATION=~/Documents/dev/amazon-reviews
-SAMPLE_DATA_SIZE=5
+SPARK_PATH=~/Documents/dev/spark-3.0.1-bin-hadoop2.7
+SAMPLE_DATA_SIZE=10
 
 REVIEW_CSV=data/sample.csv
 API_GATEWAY_ENDPOINT=https://xxxxxxxxxx.execute-api.us-east-2.amazonaws.com/dev/test
@@ -13,7 +14,9 @@ KINESIS_STREAM=AmazonReviews-APIData
 KINESIS_ENDPOINT=https://kinesis.us-east-2.amazonaws.com
 DYNAMODB_TABLE=AmazonReviews-Product
 
-REDSHIFT_USERNAME=user
-REDSHIFT_PASSWORD=pass
-REDSHIFT_TABLE=AmazonReviews-Analytics
-REDSHIFT_S3_PATH=s3://amazonreviews-analytics
+REDSHIFT_DRIVER_JAR=https://s3.amazonaws.com/redshift-downloads/drivers/jdbc/1.2.45.1069/RedshiftJDBC42-no-awssdk-1.2.45.1069.jar
+REDSHIFT_JDBC=jdbc:redshift://redshift-cluster-1.c26twnok6ac1.us-east-2.redshift.amazonaws.com:5439/amazon-reviews-analytics
+REDSHIFT_JDBC_CLASS=com.amazon.redshift.jdbc42.Driver
+REDSHIFT_USERNAME=xxxxxx
+REDSHIFT_PASSWORD=xxxxxx
+REDSHIFT_TABLE=product_reviews
