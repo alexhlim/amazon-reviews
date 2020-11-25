@@ -1,12 +1,12 @@
-package com.amazonreviews.streaming
+package com.amazonreviews.helpers
 
-import com.amazonreviews.streaming.KinesisSparkHelper.{
+import com.amazonreviews.helpers.KinesisSparkHelper.{
   processAPIDataDynamo,
   processAPIDataRedshift
 }
-import com.amazonreviews.streaming.ReviewFixture.reviewJson
+import com.amazonreviews.helpers.ReviewFixture.reviewJson
+
 import org.scalatest.FunSuite
-import breeze.numerics.exp
 
 class KinesisSparkHelperTests extends FunSuite {
   test("processAPIDataDynamo is invoked on a json String") {

@@ -1,4 +1,9 @@
-package com.amazonreviews.streaming
+package com.amazonreviews.helpers
+
+import com.amazonreviews.helpers.KinesisSparkHelper.{
+  ProductReviewDynamo,
+  ProductReviewRedshift
+}
 
 class ReviewFixture(
     id: String,

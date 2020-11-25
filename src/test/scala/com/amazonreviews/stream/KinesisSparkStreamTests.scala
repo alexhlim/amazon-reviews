@@ -1,10 +1,15 @@
-package com.amazonreviews.streaming
+package com.amazonreviews.stream
 
-import com.amazonreviews.streaming.KinesisSparkStream.{
+import com.amazonreviews.helpers.ReviewFixture.reviewJson
+import com.amazonreviews.helpers.KinesisSparkHelper.{
+  ProductReviewDynamo,
+  ProductReviewRedshift
+}
+import com.amazonreviews.stream.KinesisSparkStream.{
   convertStreamDynamo,
   convertStreamRedshift
 }
-import com.amazonreviews.streaming.ReviewFixture.reviewJson
+
 import com.holdenkarau.spark.testing.{StreamingSuiteBase, DataFrameSuiteBase}
 import org.scalatest.FunSuite
 import com.holdenkarau.spark.testing.SharedSparkContext

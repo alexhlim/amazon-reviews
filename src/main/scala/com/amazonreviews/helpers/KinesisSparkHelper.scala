@@ -1,4 +1,4 @@
-package com.amazonreviews.streaming
+package com.amazonreviews.helpers
 
 import software.amazon.awssdk.auth.credentials.{
   DefaultCredentialsProvider,
@@ -11,6 +11,25 @@ import org.json4s._
 import org.json4s.jackson.JsonMethods._
 
 object KinesisSparkHelper {
+
+  case class ProductReviewDynamo(
+      id: String,
+      reviewId: String,
+      reviewJson: String
+  )
+  case class ProductReviewRedshift(
+      id: String,
+      reviewId: String,
+      name: String,
+      brand: String,
+      reviewDate: String,
+      reviewDoRecommend: String,
+      reviewNumHelpful: Int,
+      reviewRating: Int,
+      reviewText: String,
+      reviewTitle: String,
+      reviewUsername: String
+  )
 
   def getNumShards(kinesisClient: KinesisClient, streamName: String): Int = {
     val describeStreamRequest =
@@ -73,17 +92,3 @@ object KinesisSparkHelper {
   }
 
 }
-case class ProductReviewDynamo(id: String, reviewId: String, reviewJson: String)
-case class ProductReviewRedshift(
-    id: String,
-    reviewId: String,
-    name: String,
-    brand: String,
-    reviewDate: String,
-    reviewDoRecommend: String,
-    reviewNumHelpful: Int,
-    reviewRating: Int,
-    reviewText: String,
-    reviewTitle: String,
-    reviewUsername: String
-)

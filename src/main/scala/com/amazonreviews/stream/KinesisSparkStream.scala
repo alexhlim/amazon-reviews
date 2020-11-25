@@ -1,12 +1,15 @@
-package com.amazonreviews.streaming
+package com.amazonreviews.stream
 
-import com.amazonreviews.streaming.KinesisSparkHelper.{
+import com.amazonreviews.helpers.KinesisSparkHelper.{
   getNumShards,
   getCredentials,
   getRegion,
   processAPIDataDynamo,
-  processAPIDataRedshift
+  processAPIDataRedshift,
+  ProductReviewDynamo,
+  ProductReviewRedshift
 }
+
 import com.audienceproject.spark.dynamodb.implicits._
 import software.amazon.awssdk.http.apache.ApacheHttpClient
 import software.amazon.awssdk.services.kinesis.KinesisClient
