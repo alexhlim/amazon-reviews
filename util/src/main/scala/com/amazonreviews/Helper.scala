@@ -7,10 +7,11 @@ import software.amazon.awssdk.auth.credentials.{
 import software.amazon.awssdk.regions.Region
 import software.amazon.awssdk.services.kinesis.KinesisClient
 import software.amazon.awssdk.services.kinesis.model.{DescribeStreamRequest}
+import org.apache.spark.sql.DataFrame
 import org.json4s._
 import org.json4s.jackson.JsonMethods._
 
-object KinesisSparkHelper {
+object Helper {
 
   case class ProductReviewDynamo(
       id: String,
@@ -89,6 +90,28 @@ object KinesisSparkHelper {
       reviewUsername = compact(render(json \ "reviews.username"))
     )
     schema
+  }
+
+  def dfToRedshift(
+      df: DataFrame,
+      redshiftJdbc: String,
+      redshiftJdbcClass: String,
+      redshiftUsername: String,
+      redshiftPassword: String,
+      redshiftTable: String
+  ): Unit = {
+    if (!df.isEmpty) {
+      df.show(1)
+      df.write
+        .format("jdbc")
+        .option("url", redshiftJdbc)
+        .option("driver", redshiftJdbcClass)
+        .option("dbtable", redshiftTable)
+        .option("user", redshiftUsername)
+        .option("password", redshiftPassword)
+        .mode("append")
+        .save()
+    }
   }
 
 }

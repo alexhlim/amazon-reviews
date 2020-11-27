@@ -1,11 +1,12 @@
 package com.amazonreviews.stream
 
-import com.amazonreviews.util.KinesisSparkHelper.{
+import com.amazonreviews.util.Helper.{
   getNumShards,
   getCredentials,
   getRegion,
   processAPIDataDynamo,
   processAPIDataRedshift,
+  dfToRedshift,
   ProductReviewDynamo,
   ProductReviewRedshift
 }
@@ -79,18 +80,14 @@ object KinesisSparkStream {
       // Spark needs to be initalized before importing this, needed for .toDF()
       import spark.implicits._
       val reviewDf = rdd.toDF()
-      if (!reviewDf.isEmpty) {
-        reviewDf.show(1)
-        reviewDf.write
-          .format("jdbc")
-          .option("url", redshiftJdbc)
-          .option("driver", redshiftJdbcClass)
-          .option("dbtable", redshiftTable)
-          .option("user", redshiftUsername)
-          .option("password", redshiftPassword)
-          .mode("append")
-          .save()
-      }
+      dfToRedshift(
+        reviewDf,
+        redshiftJdbc,
+        redshiftJdbcClass,
+        redshiftUsername,
+        redshiftPassword,
+        redshiftTable
+      )
     }
   }
 
