@@ -44,6 +44,6 @@ lazy val batch = (project in file(batchProject))
   .settings(
     commonSettings,
     name := batchProject,
-    mainClass in assembly := Some("com.amazonreviews.batch.KinesisSparkBatch"),
+    mainClass in assembly := Some("com.amazonreviews.batch.S3SparkBatch"),
     libraryDependencies ++= Seq("com.amazonaws" % "aws-java-sdk" % "1.7.4"),
   ).dependsOn(util % "test->test;compile->compile")
