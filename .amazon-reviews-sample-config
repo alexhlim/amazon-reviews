@@ -5,8 +5,8 @@ SAMPLE_DATA_SIZE=10
 REVIEW_CSV=data/sample.csv
 API_GATEWAY_ENDPOINT=https://xxxxxxxxxx.execute-api.us-east-2.amazonaws.com/dev/test
 
-AMAZON_REVIEWS_JAR_PATH=target/scala-2.12/amazon-reviews-streaming-assembly-0.1.jar
-AMAZON_REVIEWS_JAR=amazon-reviews-streaming-assembly-0.1.jar
+STREAM_JAR_PATH=stream/target/scala-2.12/stream-assembly-1.0.0.jar
+STREAM_JAR=stream-assembly-1.0.0.jar
 EMR_S3_PATH=s3://amazonreviews-analytics
 EMR_CLUSTER_ID=j-XXXXXXXXXXXXF
 APP_NAME=AmazonReviews

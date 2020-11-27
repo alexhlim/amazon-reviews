@@ -1,4 +1,4 @@
-package com.amazonreviews.helpers
+package com.amazonreviews.util
 
 import software.amazon.awssdk.auth.credentials.{
   DefaultCredentialsProvider,

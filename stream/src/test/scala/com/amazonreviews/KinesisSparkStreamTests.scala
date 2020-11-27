@@ -1,7 +1,7 @@
 package com.amazonreviews.stream
 
-import com.amazonreviews.helpers.ReviewFixture.reviewJson
-import com.amazonreviews.helpers.KinesisSparkHelper.{
+import com.amazonreviews.util.ReviewFixture.reviewJson
+import com.amazonreviews.util.KinesisSparkHelper.{
   ProductReviewDynamo,
   ProductReviewRedshift
 }

@@ -1,6 +1,6 @@
 package com.amazonreviews.stream
 
-import com.amazonreviews.helpers.KinesisSparkHelper.{
+import com.amazonreviews.util.KinesisSparkHelper.{
   getNumShards,
   getCredentials,
   getRegion,

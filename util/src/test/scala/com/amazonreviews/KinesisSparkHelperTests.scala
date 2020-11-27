@@ -1,10 +1,10 @@
-package com.amazonreviews.helpers
+package com.amazonreviews.util
 
-import com.amazonreviews.helpers.KinesisSparkHelper.{
+import com.amazonreviews.util.KinesisSparkHelper.{
   processAPIDataDynamo,
   processAPIDataRedshift
 }
-import com.amazonreviews.helpers.ReviewFixture.reviewJson
+import com.amazonreviews.util.ReviewFixture.reviewJson
 
 import org.scalatest.FunSuite
 

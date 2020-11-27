@@ -2,7 +2,7 @@
 source .amazon-reviews-config
 
 sbt clean assembly && \
-aws s3 cp $AMAZON_REVIEWS_JAR_PATH $EMR_S3_PATH && \
+aws s3 cp $STREAM_JAR_PATH $EMR_S3_PATH && \
 aws emr add-steps \
 --cluster-id $EMR_CLUSTER_ID \
 --steps \

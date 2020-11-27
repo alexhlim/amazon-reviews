@@ -1,6 +1,6 @@
-package com.amazonreviews.helpers
+package com.amazonreviews.util
 
-import com.amazonreviews.helpers.KinesisSparkHelper.{
+import com.amazonreviews.util.KinesisSparkHelper.{
   ProductReviewDynamo,
   ProductReviewRedshift
 }
