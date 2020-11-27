@@ -1,7 +1,7 @@
 #!/bin/bash
 source .amazon-reviews-config
 
-sbt clean assembly && \
+sbt stream/clean/assembly && \
 "${SPARK_PATH}/bin/spark-submit" \
 --jars $REDSHIFT_DRIVER_JAR \
 ${REPO_LOCATION}/${STREAM_JAR_PATH} \
