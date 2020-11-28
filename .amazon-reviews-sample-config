@@ -21,6 +21,8 @@ REDSHIFT_USERNAME=xxxxxx
 REDSHIFT_PASSWORD=xxxxxx
 REDSHIFT_TABLE=product_reviews
 
+BATCH_DATA_TO_SEND=data/sample.csv
 BATCH_JAR_PATH=batch/target/scala-2.12/batch-assembly-1.0.0.jar
-BATCH_S3_DIR=s3a://amazonreviews-analytics/batch/
+BATCH_S3_DIR=s3://amazonreviews-analytics/batch/
+BATCH_S3A_DIR=s3a://amazonreviews-analytics/batch/
 BATCH_S3_ENDPOINT=s3.us-east-2.amazonaws.com
