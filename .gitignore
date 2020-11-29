@@ -12,3 +12,11 @@ target
 
 # Config
 .amazon-reviews-config
+
+# Airflow
+airflow.cfg
+unittests.cfg
+airflow.db
+unittests.db
+logs/
+airflow-webserver.pid
