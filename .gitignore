@@ -14,6 +14,7 @@ target
 .amazon-reviews-config
 
 # Airflow
+__pycache__
 airflow.cfg
 unittests.cfg
 airflow.db

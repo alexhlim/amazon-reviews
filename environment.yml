@@ -11,3 +11,4 @@ dependencies:
   - isort
   - ipykernel
   - kaggle
+  - airflow
