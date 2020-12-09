@@ -1,5 +1,5 @@
 #!/bin/bash
-source .amazon-reviews-config
+source $AMAZON_REVIEWS_CONFIG
 
 mkdir -p data
 

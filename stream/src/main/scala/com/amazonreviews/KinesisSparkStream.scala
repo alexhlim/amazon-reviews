@@ -99,8 +99,6 @@ object KinesisSparkStream {
       dynamoTable,
       redshiftJdbc,
       redshiftJdbcClass,
-      redshiftUsername,
-      redshiftPassword,
       redshiftTable
     ) = args
 
@@ -146,8 +144,8 @@ object KinesisSparkStream {
       redshiftStream,
       redshiftJdbc,
       redshiftJdbcClass,
-      redshiftUsername,
-      redshiftPassword,
+      sc.getConf.get("spark.redshift.username"),
+      sc.getConf.get("spark.redshift.password"),
       redshiftTable
     )
 
