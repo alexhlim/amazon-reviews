@@ -1,3 +1,4 @@
+"""Dag for batch processing."""
 import os
 from configparser import ConfigParser
 from datetime import timedelta

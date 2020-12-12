@@ -1,3 +1,7 @@
+"""
+Send data to AWS API Gateway.
+This is not to be called directly. Use scripts/bin/stream_send_data.sh.
+"""
 import sys
 
 import pandas as pd
