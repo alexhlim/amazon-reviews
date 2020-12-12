@@ -13,5 +13,5 @@ source $AMAZON_REVIEWS_CONFIG
 --conf spark.executor.extraJavaOptions=-Dcom.amazonaws.services.s3.enableV4=true \
 --conf spark.driver.extraJavaOptions=-Dcom.amazonaws.services.s3.enableV4=true \
 ${REPO_LOCATION}/${BATCH_JAR} \
-$STREAM_APP_NAME $BATCH_S3_DIR $REDSHIFT_JDBC $REDSHIFT_JDBC_CLASS $REDSHIFT_TABLE
+$BATCH_APP_NAME $BATCH_S3_DIR $REDSHIFT_JDBC $REDSHIFT_JDBC_CLASS $REDSHIFT_TABLE
 
