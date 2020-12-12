@@ -12,6 +12,10 @@ setup_env() {
 }
 
 # For the following functions, install ttab: npm install -g ttab
+# Before calling either of the functions below, make sure:
+# 1) intilize the db: airflow initdb
+# 2) remove and local *.pid files
+
 # Start airflow local webserver
 start_webserver() {
     ttab "export AMAZON_REVIEWS_CONFIG=$AMAZON_REVIEWS_CONFIG && \
