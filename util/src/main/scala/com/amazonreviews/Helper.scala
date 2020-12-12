@@ -12,12 +12,16 @@ import org.json4s._
 import org.json4s.jackson.JsonMethods._
 
 object Helper {
+  /** Helper functions for stream and batch projects. **/
 
+  /** Schema for dynamodb table (wide column store) s**/
   case class ProductReviewDynamo(
       id: String,
       reviewId: String,
       reviewJson: String
   )
+
+  /** Schema for redshift table (relational) **/
   case class ProductReviewRedshift(
       id: String,
       reviewId: String,
@@ -32,6 +36,7 @@ object Helper {
       reviewUsername: String
   )
 
+  /** Fetch number of shards in a given kinesis stream **/
   def getNumShards(kinesisClient: KinesisClient, streamName: String): Int = {
     val describeStreamRequest =
       DescribeStreamRequest.builder().streamName(streamName).build()
@@ -42,6 +47,7 @@ object Helper {
       .size
   }
 
+  /** Retrieve AWS credentials **/
   def getCredentials(): AwsCredentials = {
     val credentials = DefaultCredentialsProvider.create().resolveCredentials()
     require(
@@ -54,13 +60,14 @@ object Helper {
     credentials
   }
 
+  /** AWS region **/
   def getRegion(): Region = {
     // See if you can pull this dynamically
     Region.US_EAST_2
   }
 
+  /** Transforming JSON to ProductReviewDynamo schema **/
   def processAPIDataDynamo(jsonString: String): ProductReviewDynamo = {
-    // Move to helpers
     val json = parse(jsonString)
     val id = compact(render(json \ "id"))
     val reviewId = compact(render(json \ "reviews.id"))
@@ -73,6 +80,7 @@ object Helper {
     ProductReviewDynamo(id, reviewId, reviewJson)
   }
 
+  /** Transforming JSON to ProductReviewRedshift schema **/
   def processAPIDataRedshift(reviewJson: String): ProductReviewRedshift = {
     val json = parse(reviewJson)
     implicit val formats = DefaultFormats
@@ -92,6 +100,7 @@ object Helper {
     schema
   }
 
+  /** Write Spark DF to redshift **/
   def dfToRedshift(
       df: DataFrame,
       redshiftJdbc: String,
