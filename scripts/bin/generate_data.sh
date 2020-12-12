@@ -12,4 +12,6 @@ datafiniti/consumer-reviews-of-amazon-products \
 -p data/
 
 # Generate sample data (specify in config)
-python ${REPO_LOCATION}/scripts/python/generate_data.py $REPO_LOCATION $SAMPLE_DATA_SIZE
+# Usage for python:
+# python $REPO_LOCATION/scripts/python/generate_data.py <repo-location> <sample-data-size>
+python $REPO_LOCATION/scripts/python/generate_data.py $REPO_LOCATION $SAMPLE_DATA_SIZE
