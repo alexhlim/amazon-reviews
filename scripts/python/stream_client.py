@@ -1,6 +1,6 @@
 """
 Send data to AWS API Gateway.
-This is not to be called directly. Use scripts/bin/stream_send_data.sh.
+This is not to be called directly. For usage, see scripts/bin/stream_send_data.sh.
 """
 import sys
 

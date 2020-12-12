@@ -1,6 +1,6 @@
 """
 Generates sample data from amazon-reviews-data.csv.
-This is not to be called directly. Use scripts/bin/generate_data.sh.
+This is not to be called directly. For usage, see scripts/bin/generate_data.sh.
 """
 import sys
 
