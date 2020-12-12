@@ -3,7 +3,7 @@ source $AMAZON_REVIEWS_CONFIG
 
 # Running batch app using spark submit
 # Make sure to set AWS credentials in spark-defaults.conf
-"${SPARK_PATH}/bin/spark-submit" \
+"$SPARK_PATH/bin/spark-submit" \
 --name $BATCH_APP_NAME \
 --master local[2] \
 --jars $REDSHIFT_DRIVER_JAR \
@@ -12,6 +12,6 @@ source $AMAZON_REVIEWS_CONFIG
 --conf spark.hadoop.fs.s3a.endpoint=$BATCH_S3_ENDPOINT \
 --conf spark.executor.extraJavaOptions=-Dcom.amazonaws.services.s3.enableV4=true \
 --conf spark.driver.extraJavaOptions=-Dcom.amazonaws.services.s3.enableV4=true \
-${REPO_LOCATION}/${BATCH_JAR} \
+$REPO_LOCATION/$BATCH_JAR \
 $BATCH_APP_NAME $BATCH_S3_DIR $REDSHIFT_JDBC $REDSHIFT_JDBC_CLASS $REDSHIFT_TABLE
 
