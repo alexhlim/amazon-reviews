@@ -1,6 +1,7 @@
 #!/bin/bash
 source $AMAZON_REVIEWS_CONFIG
 
+# Running stream app using spark submit
 sbt stream/clean/assembly && \
 "${SPARK_PATH}/bin/spark-submit" \
 --jars $REDSHIFT_DRIVER_JAR \

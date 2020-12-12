@@ -1,6 +1,8 @@
 #!/bin/bash
 source $AMAZON_REVIEWS_CONFIG
 
+# Running batch app using spark submit
+# Make sure to set AWS credentials in spark-defaults.conf
 "${SPARK_PATH}/bin/spark-submit" \
 --name $BATCH_APP_NAME \
 --master local[2] \

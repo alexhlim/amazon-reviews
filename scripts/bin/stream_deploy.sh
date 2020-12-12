@@ -1,6 +1,7 @@
 #!/bin/bash
 source $AMAZON_REVIEWS_CONFIG
 
+# Deploy stream app to AWS EMR cluster -- make sure you fill out cluster id in AMAZON_REVIEWS_CONFIG
 sbt stream/clean/assembly && \
 aws s3 cp $STREAM_JAR_PATH $EMR_S3_PATH && \
 aws emr add-steps \
