@@ -25,8 +25,11 @@ import org.apache.spark.streaming.kinesis.{
   KinesisInputDStream
 }
 
-object KinesisSparkStream {
 
+object KinesisSparkStream {
+  /** Functions for running streaming app. **/
+
+  /** Converts kinesis stream to dynamo schema **/
   def convertStreamDynamo(
       unionStreams: DStream[Array[Byte]]
   ): DStream[ProductReviewDynamo] = {
@@ -37,6 +40,7 @@ object KinesisSparkStream {
     dynamoStream
   }
 
+  /** Converts kinesis stream to redshift schema **/
   def convertStreamRedshift(
       unionStreams: DStream[Array[Byte]]
   ): DStream[ProductReviewRedshift] = {
@@ -47,6 +51,7 @@ object KinesisSparkStream {
     redshiftStream
   }
 
+  /** Write stream to dynamo **/
   def writeToDynamodb(
       dynamoStream: DStream[ProductReviewDynamo],
       region: String,
@@ -67,6 +72,7 @@ object KinesisSparkStream {
     }
   }
 
+  /** Write stream to redshift **/
   def writeToRedshift(
       redshiftStream: DStream[ProductReviewRedshift],
       redshiftJdbc: String,
@@ -91,6 +97,29 @@ object KinesisSparkStream {
     }
   }
 
+  /** Run stream app utlizing Kinesis and Spark. Checks to see if data is present in
+   *  Kinesis using Spark Streaming + Kinesis integration, where the number of streams
+   *  is equivalent to the number of shards. Transforms the structure of the data using
+   *  ProductReviewDynamo and ProductReviewRedshift and writes to its corresponding tables.
+   *  For usage, see scripts/bin/stream_run.sh (make sure amazon-reviews-config is filled and exported before running).
+   *  
+   *  Example:
+   *    "$SPARK_PATH/bin/spark-submit" \
+   *    --jars https://s3.amazonaws.com/redshift-downloads/drivers/jdbc/1.2.45.1069/RedshiftJDBC42-no-awssdk-1.2.45.1069.jar \
+   *    stream/target/scala-2.12/stream-assembly-1.0.0.jar \
+   *    <app-name> \
+   *    <kinesis-stream> <kinesis-endpoint> \
+   *    <dynamodb-table> \
+   *    <redshift-jdbc> <redshift-jdbc-class> <redshift-table>
+   * 
+   * @param appName stream app name
+   * @param kinesisStream name of Kinesis stream
+   * @param kinesisEndpoint kinesis endpoint
+   * @param dynamoTable dynamodb table name
+   * @param redshiftJdbc redshift jdbc url
+   * @param redhisftJdbcClass class of jdbc driver
+   * @param redshiftTable redshift table name
+   */
   def main(args: Array[String]) {
     val Array(
       appName,
